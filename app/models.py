@@ -1,9 +1,14 @@
 from app import db
 
-class User(db.Model):
+class DataSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nickname = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
+    name = db.Column(db.String(64), index=True, unique=True)
 
-    def __repr__(self):
-        return '<User %r>' % (self.nickname)
+class AirplaneCrashes(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    longitude = db.Column(db.Integer)
+    latitude = db.Column(db.Integer)
+    plane_type = db.Column(db.String(100))
+    aboard = db.Column(db.Integer)
+    fatalities = db.Column(db.Integer)
+    summary = db.Column(db.Text)
