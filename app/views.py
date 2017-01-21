@@ -20,13 +20,15 @@ def get_crashes():
     
     for crash in crashes:
         data = {}
-        data['id'] = crash.id
-        data['longitude'] = crash.longitude
-        data['latitude'] = crash.latitude
-        data['plane_type'] = crash.plane_type
-        data['aboard'] = crash.aboard
-        data['fatalities'] = crash.fatalities
-        data['summary'] = crash.summary
+        data["type"] = "Feature"
+        data["properties"] = {}
+        data["properties"]["name"] = "Crash: " + str(crash.fatalities) + " died"
+        data["properties"]["popupContent"] = crash.summary
+
+        data["geometry"] = {}
+        data["geometry"]["type"] = "Point"
+        data["geometry"]["type"] = [crash.latitude, crash.longitude]
+        
         jsonResponse['crashes'].append(copy.deepcopy(data))
     
     resp = jsonify(**jsonResponse)
