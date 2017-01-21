@@ -2,7 +2,7 @@ from flask import jsonify
 import copy
 
 from app import app
-from models import AirplaneCrashes
+from models import Crashes
 
 @app.route('/')
 @app.route('/index')
@@ -15,7 +15,7 @@ def get_dataset():
 
 @app.route('/crashes', methods=['GET'])
 def get_crashes():
-    crashes = AirplaneCrashes.query.order_by(AirplaneCrashes.id)
+    crashes = Crashes.query.order_by(Crashes.id)
     jsonResponse = {"crashes":[]}
     
     for crash in crashes:
