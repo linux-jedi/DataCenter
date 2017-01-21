@@ -27,8 +27,8 @@ def get_crashes():
 
         data["geometry"] = {}
         data["geometry"]["type"] = "Point"
-        data["geometry"]["type"] = [crash.latitude, crash.longitude]
-        
+        data["geometry"]["coordinates"] = [crash.latitude, crash.longitude]
+
         jsonResponse['crashes'].append(copy.deepcopy(data))
     
     resp = jsonify(**jsonResponse)
