@@ -6,6 +6,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SECRET_KEY = 'this-really-needs-to-be-changed'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_DATABASE_URI = os.environ['DB_URL']
     SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
