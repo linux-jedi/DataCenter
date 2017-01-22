@@ -19,3 +19,12 @@ class DroneStrikes(db.Model):
     longitude = db.Column(db.Float)
     total_killed = db.Column(db.Integer)
     civilians_killed = db.Column(db.Integer)
+
+class Meteorites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40), unique=True, index=True)
+    mass = db.Column(db.Float)
+    year = db.Column(db.Integer)
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+

@@ -27,7 +27,7 @@ def get_crashes():
 
         data["geometry"] = {}
         data["geometry"]["type"] = "Point"
-        data["geometry"]["coordinates"] = [crash.latitude, crash.longitude]
+        data["geometry"]["coordinates"] = [crash.longitude, crash.latitude]
 
         jsonResponse['features'].append(copy.deepcopy(data))
     
@@ -51,7 +51,7 @@ def get_all_strikes():
 
         data["geometry"] = {}
         data["geometry"]["type"] = "Point"
-        data["geometry"]["coordinates"] = [strike.latitude, strike.longitude]
+        data["geometry"]["coordinates"] = [strike.longitude, strike.latitude]
 
         jsonResponse['features'].append(copy.deepcopy(data))
 
