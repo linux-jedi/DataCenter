@@ -15,7 +15,7 @@ def get_dataset():
 
 @app.route('/all', methods=['GET'])
 def get_all():
-    jsonResponse = {"type": "FeatureCollection", "features": []}
+    jsonResponse = {"type": "FeatureCollection", "features": [[],[],[]]}
 
      # Airplane Crashes
     crashes = Crashes.query.order_by(Crashes.id)
@@ -29,7 +29,7 @@ def get_all():
         data["geometry"] = {}
         data["geometry"]["type"] = "Point"
         data["geometry"]["coordinates"] = [crash.longitude, crash.latitude]
-        jsonResponse['features'].append(copy.deepcopy(data))
+        jsonResponse['features'][0].append(copy.deepcopy(data))
 
     # All Strikes
 
@@ -46,7 +46,7 @@ def get_all():
         data["geometry"]["type"] = "Point"
         data["geometry"]["coordinates"] = [strike.longitude, strike.latitude]
 
-        jsonResponse['features'].append(copy.deepcopy(data))
+        jsonResponse['features'][1].append(copy.deepcopy(data))
 
     # All meteorites
     meteorites = Meteorites.query.order_by(Meteorites.id)
@@ -61,7 +61,7 @@ def get_all():
         data["geometry"]["type"] = "Point"
         data["geometry"]["coordinates"] = [meteor.longitude, meteor.latitude]
 
-        jsonResponse['features'].append(copy.deepcopy(data))
+        jsonResponse['features'][2].append(copy.deepcopy(data))
 
     resp = jsonify(**jsonResponse)
     resp.status_code = 200
