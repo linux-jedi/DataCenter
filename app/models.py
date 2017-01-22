@@ -28,3 +28,13 @@ class Meteorites(db.Model):
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
 
+class PoliceKillings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40),unique=True,index=True)
+    ethnicity = db.Column(db.String(40))
+    age = db.Column(db.Integer)
+    gender = db.Column(db.String(20))
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
+    county_income = db.Column(db.Float)
+    city = db.Column(db.String(40))
