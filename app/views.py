@@ -2,7 +2,7 @@ from flask import jsonify
 import copy
 
 from app import app
-from models import Crashes, DroneStrikes
+from models import Crashes, DroneStrikes, Meteorites
 
 @app.route('/')
 @app.route('/index')
@@ -59,4 +59,25 @@ def get_all_strikes():
     resp.status_code = 200
     return resp
 
+@app.route('/meteorites', methods=['GET'])
+def get_meteorites():
+    meteorites = Meteorites.query.order_by(Meteorites.id)
 
+    jsonResponse = {"type": "FeatureCollection", "features": []}
+    
+    for meteor in meteorites:
+        data = {}
+        data["type"] = "Feature"
+        data["properties"] = {}
+        data["properties"]["name"] = meteor.name
+        data["properties"]["popupContent"] = "Year: " + str(meteor.year) + " Mass: " + str(meteor.mass)
+
+        data["geometry"] = {}
+        data["geometry"]["type"] = "Point"
+        data["geometry"]["coordinates"] = [meteor.longitude, meteor.latitude]
+
+        jsonResponse['features'].append(copy.deepcopy(data))
+
+    resp = jsonify(**jsonResponse)
+    resp.status_code = 200
+    return resp
