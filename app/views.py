@@ -2,7 +2,7 @@ from flask import jsonify
 import copy
 
 from app import app
-from models import Crashes, DroneStrikes, Meteorites
+from models import Crashes, DroneStrikes, Meteorites, PoliceKillings
 
 @app.route('/')
 @app.route('/index')
@@ -15,7 +15,7 @@ def get_dataset():
 
 @app.route('/all', methods=['GET'])
 def get_all():
-    jsonResponse = {"type": "FeatureCollection", "features": [[],[],[]]}
+    jsonResponse = {"type": "FeatureCollection", "features": [[],[],[],[]]}
 
      # Airplane Crashes
     crashes = Crashes.query.order_by(Crashes.id)
@@ -62,6 +62,22 @@ def get_all():
         data["geometry"]["coordinates"] = [meteor.longitude, meteor.latitude]
 
         jsonResponse['features'][2].append(copy.deepcopy(data))
+
+    # Police killings
+    killings = PoliceKillings.query.order_by(PoliceKillings.id)
+    for killing in killings:
+        data = {}
+        data["type"] ="Feature"
+        data["properties"] = {}
+        data["properties"]["name"] = killing.name
+        data["properties"]["popupContent"] = "Name: " + str(killing.name) + " Age: " +\
+            str(killing.age) + " Ethnicity: " + str(killing.ethnicity)
+        
+        data["geometry"] = {}
+        data["geometry"]["type"] = "Point"
+        data["geometry"]["coordinates"] = [killing.longitude, killing.latitude]
+
+        jsonResponse['features'][3].append(copy.deepcopy(data))
 
     resp = jsonify(**jsonResponse)
     resp.status_code = 200
@@ -132,6 +148,30 @@ def get_meteorites():
 
         jsonResponse['features'].append(copy.deepcopy(data))
 
+    resp = jsonify(**jsonResponse)
+    resp.status_code = 200
+    return resp
+
+@app.route('/police', methods=['GET'])
+def get_police_killings():
+    killings = PoliceKillings.query.order_by(PoliceKillings.id)
+
+    jsonResponse = {"type": "FeatureCollection", features: []}
+
+    for killing in killings:
+        data = {}
+        data["type"] ="Feature"
+        data["properties"] = {}
+        data["properties"]["name"] = killing.name
+        data["properties"]["popupContent"] = "Name: " + str(killing.name) + " Age: " +\
+            str(killing.age) + " Ethnicity: " + str(killing.ethnicity)
+        
+        data["geometry"] = {}
+        data["geometry"]["type"] = "Point"
+        data["geometry"]["coordinates"] = [killing.longitude, killing.latitude]
+
+        jsonResponse['features'].append(copy.deepcopy(data))
+    
     resp = jsonify(**jsonResponse)
     resp.status_code = 200
     return resp
